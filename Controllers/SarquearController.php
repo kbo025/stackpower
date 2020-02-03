@@ -45,10 +45,15 @@ class SarquearController extends Controller {
 	}
 	
 	public function asyncdata() {
-		$sarquear = new Sarquear();
-		$data = $sarquear->getList();
 
-		echo $data;
+		$params = [];
+		if (!empty($_GET['filter'])) {
+			$params['status'] = explode("|", $_GET['filter']);
+		}
+		$sarquear = new Sarquear();
+		$data = $sarquear->getList($params);
+
+		echo json_encode($data);
 		die;
 	}
 
@@ -243,6 +248,4 @@ class SarquearController extends Controller {
 		$sarquear = new Sarquear();
 		$sarquear->server();
 	}
-	
-	
 }

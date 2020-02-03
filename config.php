@@ -6,8 +6,8 @@ require 'environment.php';
 $config = array();
 if(ENVIRONMENT == 'development') {
 	// Offline - Localhost
-	define("BASE_URL", "http://localhost/projeto/");
-	$config['dbname'] = 'db_stockpower';
+	define("BASE_URL", "http://stockpower.local/");
+	$config['dbname'] = 'stockpower';
 	$config['host'] = 'localhost';
 	$config['dbuser'] = 'root';
 	$config['dbpass'] = '';

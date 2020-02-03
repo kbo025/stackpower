@@ -29,7 +29,7 @@
                 <select class="form-control select2" id="select-base" multiple="multiple" data-placeholder="Selecione a Base"
                         style="width:100%">
                         <?php foreach ($base_list as $base) : ?>
-                        <option value="<?= $base['base']?>"><?= $base['base']?></option>
+                        <option value="<?= $base['id']?>"><?= $base['base']?></option>
                         <?php endforeach;?>
                 </select>
               </div>
@@ -122,73 +122,77 @@
 <script type="text/javascript" src="<?= BASE_URL?>assets/js/jquery.mask.js"></script>
 
 <script type="text/javascript">
+var listurl = "<?= $listUrl ?>";
 $(function () {
     $('.select2').select2()
-})
-var table = $('table').DataTable({
-    "bJQueryUI": true,
-    "order": [[ 0, "desc" ]],
-    ajax: "<?= $listUrl ?>",
-    "oLanguage": {
-        "sProcessing":   "Processando...",
-        "sLengthMenu":   "Mostrar _MENU_ registros",
-        "sZeroRecords":  "Não foram encontrados resultados",
-        "sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-        "sInfoEmpty":    "Mostrando de 0 até 0 de 0 registros",
-        "sInfoFiltered": "",
-        "sInfoPostFix":  "",
-        "sSearch":       "Buscar:",
-        "sUrl":          "",
-        "oPaginate": {
-            "sFirst":    "Primeiro",
-            "sPrevious": "Anterior",
-            "sNext":     "Seguinte",
-            "sLast":     "Último"
+    var table = $('table').DataTable({
+        "bJQueryUI": true,
+        "order": [[ 0, "desc" ]],
+        ajax: listurl,
+        "oLanguage": {
+            "sProcessing":   "Processando...",
+            "sLengthMenu":   "Mostrar _MENU_ registros",
+            "sZeroRecords":  "Não foram encontrados resultados",
+            "sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty":    "Mostrando de 0 até 0 de 0 registros",
+            "sInfoFiltered": "",
+            "sInfoPostFix":  "",
+            "sSearch":       "Buscar:",
+            "sUrl":          "",
+            "oPaginate": {
+                "sFirst":    "Primeiro",
+                "sPrevious": "Anterior",
+                "sNext":     "Seguinte",
+                "sLast":     "Último"
+            }
         }
-    }
- });
+    });
 
+    /** busca na fonte de dados cada 3seg */
+    setInterval( function () {
+        table.ajax.reload(null, false);
+    }, 3000);
 
-/** busca na fonte de dados cada 3seg */
-setInterval( function () {
-    table.ajax.reload(null, false);
-}, 3000);
-
-var dataTable = $('table').dataTable();
-$('#select-base').change( function () {
-    var choosedFilter = $('#select-base').val();
-    var choosedString = choosedFilter.join("|");
-    dataTable.fnFilter(choosedString, 2, true, false);
-});
+    $('#select-base').change( function () {
+        var choosedFilter = $('#select-base').val();
+        var choosedString = choosedFilter.join("|");
+        listurl = "<?= $listUrl ?>";
+        if (choosedString.length > 0) {
+            listurl = listurl + '?filter=' +  choosedString;
+        }
+        table.ajax.url(listurl).load();
+        //table.fnFilter(choosedString, 2, true, false);
+    });
+})
 
 </script>
 
 <script type="text/javascript">
 
 
-//chamada a função
-getNotifications();
+// //chamada a função
+// getNotifications();
 
-function getNotifications( entry )
-{   
-    // cria array de dados
-    var data = {};
-    // verifica se existe um tempo definido
-    if(typeof entry != 'undefined'){
-        // atribui o tempo definido ao objeto
-        data.entry = entry;
-    }
+// function getNotifications( entry )
+// {   
+//     // cria array de dados
+//     var data = {};
+//     // verifica se existe um tempo definido
+//     if(typeof entry != 'undefined'){
+//         // atribui o tempo definido ao objeto
+//         data.entry = entry;
+//     }
 
-    // envia os dados para o script de polling
-    $.post('sarquear/consultan', data, function(result) {           
-        for(i in result.notify){
-            // passa os valores para a lista de notitficações
-            $('#entry').append(result.notify[i].title);
-        }
-        // reinicia a busca por dados
-        getNotifications(result.entry);
-    });
-}
+//     // envia os dados para o script de polling
+//     $.post('sarquear/consultan', data, function(result) {           
+//         for(i in result.notify){
+//             // passa os valores para a lista de notitficações
+//             $('#entry').append(result.notify[i].title);
+//         }
+//         // reinicia a busca por dados
+//         getNotifications(result.entry);
+//     });
+// }
 
 
 </script>

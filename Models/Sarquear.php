@@ -7,21 +7,50 @@ use \Core\Model;
 class Sarquear extends Model
 {
 
-    public function getList()
+    public function getList($params = array())
     {
         $data = array();
-        $sql = $this->db->query("SELECT TIMEDIFF(a.dtfinal, a.dtinicial) as diferenca , a.id, a.id_usuario, a.id_operador,
-		case a.situacao when 1 then 'Anotações Criminais'
-						when 2 then 'Busca e Apreensão'
-						when 3 then 'Dados Inconsistentes'
-						when 4 then 'Desaparecidos'
-						when 5 then 'Evadido'
-						when 6 then 'Mandado'
-						when 7 then 'Nada Constatado'
-						when 8 then 'Veiculo Roubado'
-						when 9 then 'Outros'
-         end as situacaonova, a.nome, a.placa, a.tipo, a.rg, a.cpf, c.base, a.nascimento, a.status, a.dtinicial, a.pai, a.mae,
-		 a.dtfinal, b.name FROM sarque a LEFT JOIN users b ON a.id_usuario = b.id LEFT JOIN base c ON a.base = c.id where a.status NOT IN(3,5,6,7)");
+        $strSql = "SELECT
+            TIMEDIFF(a.dtfinal, a.dtinicial) as diferenca ,
+            a.id,
+            a.id_usuario,
+            a.id_operador,
+            case a.situacao
+                when 1 then 'Anotações Criminais'
+                when 2 then 'Busca e Apreensão'
+                when 3 then 'Dados Inconsistentes'
+                when 4 then 'Desaparecidos'
+                when 5 then 'Evadido'
+                when 6 then 'Mandado'
+                when 7 then 'Nada Constatado'
+                when 8 then 'Veiculo Roubado'
+                when 9 then 'Outros'
+            end as situacaonova,
+            a.nome,
+            a.placa,
+            a.tipo,
+            a.rg,
+            a.cpf,
+            c.base,
+            a.nascimento,
+            a.status,
+            a.dtinicial,
+            a.pai,
+            a.mae,
+            a.dtfinal,
+            b.name
+        FROM sarque a
+        LEFT JOIN users b ON a.id_usuario = b.id
+        LEFT JOIN base c ON a.base = c.id
+        WHERE a.status NOT IN(3,5,6,7)";
+        if (!empty($params) && is_array($params)) {
+            if(isset($params['base']) && is_array($params['base'])) {
+                $baseFilter = "(" . implode(',', $params['base']) . ")";
+                $strSql = "$strSql AND a.base IN $baseFilter";
+            }
+        }
+
+        $sql = $this->db->query($strSql);
         if (!empty($sql)) {
             $data = $sql->fetchAll();
         }
@@ -179,7 +208,7 @@ class Sarquear extends Model
         $sql->execute();
     }
 
-    // public function server(){
+    // public function server() {
     //     # define momento em que começou a roda o Polling
     //         $start = time();
     //         # Defini tempo maximo da conexão
@@ -212,15 +241,15 @@ class Sarquear extends Model
     //         while (!$newData and (time()-$start) < $timeRequest ) {
     //             $stmt->execute();
 
-    //         # caso encontre resultado fecha a conexão
-    //         while ($result = $stmt->fetchAll(\PDO::FETCH_ASSOC)) {
-    //             # atribui valor do resultado
-    //             $notify = $result;
-    //             # encerra a conexão
-    //             $newData = true;
-    //         }
-    //         # aguarda 1/2 segundo para abrir a conexão
-    //         usleep(500000);
+    //             # caso encontre resultado fecha a conexão
+    //             while ($result = $stmt->fetchAll(\PDO::FETCH_ASSOC)) {
+    //                 # atribui valor do resultado
+    //                 $notify = $result;
+    //                 # encerra a conexão
+    //                 $newData = true;
+    //             }
+    //             # aguarda 1/2 segundo para abrir a conexão
+    //             usleep(500000);
     //         }
     //         # pega novamente a hora do servidor
     //         $getTime = $this->db->prepare("SELECT NOW() as now");
