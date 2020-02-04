@@ -12,6 +12,17 @@ class Sarquear extends Model
         $data = array();
         $strSql = "SELECT
             TIMEDIFF(a.dtfinal, a.dtinicial) as diferenca ,
+            a.nome,
+            a.placa,
+            a.tipo,
+            a.rg,
+            a.cpf,
+            a.nascimento,
+            a.status,
+            a.dtinicial,
+            a.pai,
+            a.mae,
+            a.dtfinal,
             a.id,
             a.id_usuario,
             a.id_operador,
@@ -26,23 +37,13 @@ class Sarquear extends Model
                 when 8 then 'Veiculo Roubado'
                 when 9 then 'Outros'
             end as situacaonova,
-            a.nome,
-            a.placa,
-            a.tipo,
-            a.rg,
-            a.cpf,
             c.base,
-            a.nascimento,
-            a.status,
-            a.dtinicial,
-            a.pai,
-            a.mae,
-            a.dtfinal,
             b.name
-        FROM sarque a
-        LEFT JOIN users b ON a.id_usuario = b.id
-        LEFT JOIN base c ON a.base = c.id
-        WHERE a.status NOT IN(3,5,6,7)";
+            FROM sarque a
+            LEFT JOIN users b ON a.id_usuario = b.id
+            LEFT JOIN base c ON a.base = c.id
+            WHERE a.status NOT IN(3,5,6,7)";
+
         if (!empty($params) && is_array($params)) {
             if(isset($params['base']) && is_array($params['base'])) {
                 $baseFilter = "(" . implode(',', $params['base']) . ")";
@@ -55,7 +56,30 @@ class Sarquear extends Model
             $data = $sql->fetchAll();
         }
 
-        return $data;
+        return array_map(
+            function ($e) {
+                return [
+                    'diferenca'   => $e['diferenca'],
+                    'nome'         => $e['nome'],
+                    'placa'        => $e['placa'],
+                    'tipo'         => $e['tipo'],
+                    'rg'           => $e['rg'],
+                    'cpf'          => $e['cpf'],
+                    'nascimento'   => $e['nascimento'],
+                    'status'       => $e['status'],
+                    'pai'          => $e['pai'],
+                    'mae'          => $e['mae'],
+                    'dtfinal'      => $e['dtfinal'],
+                    'dtinicial'    => $e['dtinicial'],
+                    'id'           => $e['id'],
+                    'id_usuario'   => $e['id_usuario'],
+                    'id_operador'  => $e['id_operador'],
+                    'situacaonova' => $e['situacaonova'],
+                    'base'         => $e['base'],
+                    'name'         => $e['name'],
+                ];
+            },
+            $data);
     }
 
     public function addPessoa($base, $txtrgpm, $telefone, $localocorrencia, $tpconsulta, $motivo, $txtnome, $txtrg, $txtcpf, $txtdtnasc, $txtmae, $txtpai, $txtobs, $id_operador)

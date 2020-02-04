@@ -47,9 +47,77 @@
 						<th class="hidden-xs">PLACA</th>
                         <th>INICIO</th>																								
                         <th class="hidden-xs">STATUS</th>
+						<?php 
+						    if ($_SESSION['StockPower']['tipo_usuario'] == 3) : ?>
+                            <th class="text-center">AÇÕES</th>
+						 <?php else : ?>
+						    <th></th>
+                         <?php endif; ?>
+						 
                      </tr>
                 </thead>
                 <tbody>
+                <?php foreach ($list as $provider) : ?>
+                    
+                  <tr>
+                      <td class="hidden-xs text-center"><?= $provider['id'];?></td>
+                      <td ><?= $provider['nome'];?></td>
+                      <td class="hidden-xs"><?= $provider['base'];?></td>
+					  <td ><?= $provider['placa'];?></td>
+					  <td class="hidden-xs"><?= date('d/m/Y H:i:s', strtotime($provider['dtinicial'])); ?></td>
+					  <td><?php
+						switch ($provider["status"]) {
+						case 1:
+							echo '<span class="badge bg-red">PENDENTE</span>';
+							break;
+						case 2:
+							echo '<span class="badge bg-yellow">ANALISE</span>';
+							break;
+						case 3:
+							echo '<span class="badge bg-green">RESPONDIDO</span>'; 
+							break;	
+						case 4:
+							echo '<span class="badge bg-red">CONDUZIR</span>';
+							break;	
+						case 5:
+							echo '<span class="badge bg-red">FECHADO</span>';
+							break;	
+						case 6:
+							echo '<span class="badge bg-red">PRESO</span>';
+							break;		
+						case 7:
+							echo '<span class="badge bg-green">LIBERADO</span>';
+							break;		
+							}	
+					 ?> 
+					  </td>
+					 
+					<?php if ($_SESSION['StockPower']['tipo_usuario'] != 3) : ?>
+                      <td>
+                          <div class="btn-group"> 
+						  <?php if ($provider['status'] == 1) : ?>
+					          <a href="<?= BASE_URL.'sarquear/atender/'.$provider['id']?>" class="btn btn-success">Atender</a>
+						  <?php elseif ($provider['id_operador'] == $_SESSION['StockPower']['id'] && $provider['status'] == 4 
+						  && $_SESSION['StockPower']['tipo_usuario'] = 3) : ?>	  
+					          <a href="<?= BASE_URL.'sarquear/conduzir/'.$provider['id']?>" class="btn btn-danger">Conduzir</a>
+						  <?php elseif ($provider['id_usuario'] == $_SESSION['StockPower']['id'] && $provider['status'] == 2) : ?>
+					          <a href="<?= BASE_URL.'sarquear/responder/'.$provider['id']?>" class="btn btn-primary">Responder</a>
+                          <?php endif; ?>
+                          </div>
+                      </td>
+					<?php else : ?>
+					     <td>
+                    <?php
+                        endif;
+                        if ($provider['id_operador'] == $_SESSION['StockPower']['id'] && $provider['status'] == 4) : 
+                    ?>	
+                          <div class="btn-group">
+							   <a href="<?= BASE_URL.'sarquear/conduzir/'.$provider['id']?>" class="btn btn-primary">Conduzir</a>
+                          </div>
+                      </td>
+                    <?php endif; ?>
+                  </tr>
+                <?php endforeach;?>
                 </tbody>
             </table>
         </div>
@@ -70,13 +138,7 @@ $(function () {
         "serverSide": true,
         "ajax": {
             "url": listurl,
-            "type": "GET",
-            // "dataSrc": function ( json ) {
-            //     for (let i = 0; i < json.length; i++ ) {
-            //         json[i][0] = '<a href="/message/'+json[i][0]+'>View message</a>';
-            //     }
-            //     return json;
-            // }
+            "type": "GET"
         },
         "columns": [
             { "data": "id" },
@@ -84,7 +146,7 @@ $(function () {
             { "data": "base" },
             { "data": "placa" },
             { "data": "dtinicial" },
-            { "data": "status" },
+            { "data": "status" }
         ],
         "oLanguage": {
             "sProcessing":   "Processando...",

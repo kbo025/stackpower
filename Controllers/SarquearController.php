@@ -40,7 +40,7 @@ class SarquearController extends Controller {
 		$base = new Base();
 		
 		$this->arrayInfo['base_list'] = $base->getList();
-        $this->arrayInfo['list'] = $sarquear->getList();
+		$this->arrayInfo['list'] = $sarquear->getList();
         $this->loadTemplate('sarquear', $this->arrayInfo);
 	}
 	
@@ -53,7 +53,7 @@ class SarquearController extends Controller {
 		$sarquear = new Sarquear();
 		$data = $sarquear->getList($params);
 
-		echo json_encode($data);
+		echo json_encode(['data' => $data]);
 		die;
 	}
 
