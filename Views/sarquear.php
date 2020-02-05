@@ -84,7 +84,29 @@ $(function () {
             { "data": "base" },
             { "data": "placa" },
             { "data": "dtinicial" },
-            { "data": "status" },
+            {
+                "data": "status",
+                "render": function ( data, type, row, meta ) {
+                    let tag = '';
+                    if (data == 1) { 
+                        tag = '<span class="badge bg-red">PENDENTE</span>';
+                    } else if (data == 2) {
+                        tag = '<span class="badge bg-yellow">ANALISE</span>';
+                    } else if (data == 3) {
+                        tag = '<span class="badge bg-green">RESPONDIDO</span>';
+                    } else if (data == 4) {
+                        tag = '<span class="badge bg-red">CONDUZIR</span>';
+                    } else if (data == 5) {
+                        tag = '<span class="badge bg-red">FECHADO</span>';
+                    } else if (data == 6) {
+                        tag = '<span class="badge bg-red">PRESO</span>';
+                    } else if (data == 7) {
+                        tag = '<span class="badge bg-green">LIBERADO</span>';
+                    }
+
+                    return tag;
+                }
+            },
         ],
         "oLanguage": {
             "sProcessing":   "Processando...",

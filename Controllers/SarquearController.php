@@ -48,7 +48,7 @@ class SarquearController extends Controller {
 
 		$params = [];
 		if (!empty($_GET['filter'])) {
-			$params['status'] = explode("|", $_GET['filter']);
+			$params['base'] = explode("|", $_GET['filter']);
 		}
 		$sarquear = new Sarquear();
 		$data = $sarquear->getList($params);
