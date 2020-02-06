@@ -47,6 +47,7 @@
 						<th class="hidden-xs">PLACA</th>
                         <th>INICIO</th>																								
                         <th class="hidden-xs">STATUS</th>
+                        <th class="hidden-xs">OPÇOES</th>
                      </tr>
                 </thead>
                 <tbody>
@@ -107,6 +108,7 @@ $(function () {
                     return tag;
                 }
             },
+            { "data": "opcoes" }
         ],
         "oLanguage": {
             "sProcessing":   "Processando...",

@@ -53,6 +53,29 @@ class SarquearController extends Controller {
 		$sarquear = new Sarquear();
 		$data = $sarquear->getList($params);
 
+		$data = array_map(
+				function($e) {
+					$opcoes = '';
+					$base = BASE_URL;
+					$id = $e['id'];
+					if ($_SESSION['StockPower']['tipo_usuario'] != 3) {
+						if ($e['status'] == 1) { 
+							$opcoes .= "<a href='{$base}sarquear/atender/$id' class='btn btn-success'>Atender</a>";
+						} elseif (($e['id_operador'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4)  && ($_SESSION['StockPower']['tipo_usuario'] = 3)) {
+							$opcoes .= "<a href='{$base}sarquear/conduzir/$id' class='btn btn-danger'>Conduzir</a>";
+						} elseif (($e['id_usuario'] == $_SESSION['StockPower']['id']) && ($e['status'] == 2)) { 
+							$opcoes .= "<a href='{$base}sarquear/responder/$id' class='btn btn-primary'>Responder</a>";
+						}
+					} elseif (($e['id_operador'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4)) { 
+						$opcoes .= "<a href='{$base}sarquear/conduzir/$id' class='btn btn-primary'>Conduzir</a>";
+					}
+					
+					$opcoes =  "<div class='btn-group'>$opcoes</div>";
+					$e['opcoes'] = $opcoes;
+					return $e;
+				},
+			$data);
+
 		echo json_encode(['data' => $data]);
 		die;
 	}
