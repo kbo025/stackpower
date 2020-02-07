@@ -2,9 +2,7 @@
 
 <!-- Conteudo da Pagina -->
 <section class="content-header">
-    <h1>
-        <i class="fa fa-book">  Base</i>
-    </h1>
+    
 </section>
 
 <!-- Main content -->

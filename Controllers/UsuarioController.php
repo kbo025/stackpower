@@ -52,14 +52,21 @@ class UsuarioController extends Controller {
 
     public function add_action()
     {	
-	if(!empty($_POST['nome']) && !empty($_POST['email']) && !empty($_POST['senha']) && !empty($_POST['tipo']) && !empty($_POST['base'])) {
+	if(!empty($_POST['nome']) && !empty($_POST['email']) && !empty($_POST['senha']) && !empty($_POST['tipo'])) {
 		   $nome = addslashes($_POST['nome']);
 		   $email = addslashes($_POST['email']);
 		   $senha = addslashes($_POST['senha']);
 		   $tipo = addslashes($_POST['tipo']);
-		   $base = addslashes($_POST['base']);
 		   
-		   $usuario = new Usuario();
+           $usuario = new Usuario();
+           
+            if($usuario->verificarEmail($email))
+            {
+                $_SESSION['errorMsg'] = 'E-email já cadastrado';
+                header("Location: ".BASE_URL."usuario/add");
+                exit;
+            }
+
 		   	if($usuario->add($nome, $email, $senha, $tipo, $base)) {
 				header("Location: ".BASE_URL."usuario");
 				exit;

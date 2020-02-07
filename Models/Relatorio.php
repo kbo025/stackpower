@@ -22,7 +22,7 @@ class Relatorio extends Model
 		end as situacaonova,
 		a.nome, a.placa, a.tipo, a.rg, a.cpf, c.base, 
 		a.nascimento, a.status, a.dtinicial, a.dtfinal, b.name FROM sarque a 
-		LEFT JOIN users b ON a.id_usuario = b.id 
+		LEFT JOIN usuario b ON a.id_usuario = b.id 
 		LEFT JOIN base c ON a.base = c.id 
 		where a.dtinicial BETWEEN DATE(:dt1 ) AND DATE(:dt2) 
 		and c.id =:base 
@@ -52,7 +52,7 @@ class Relatorio extends Model
 						when 8 then 'Outros'
 		end as situacaonova, a.nome, a.placa, a.tipo, a.rg, a.cpf, c.base, 
 		a.nascimento, a.status, a.dtinicial, a.dtfinal, b.name FROM sarque a 
-		LEFT JOIN users b ON a.id_usuario = b.id 
+		LEFT JOIN usuario b ON a.id_usuario = b.id 
 		LEFT JOIN base c ON a.base = c.id 
 		where a.dtinicial BETWEEN DATE(:dt1 ) AND DATE(:dt2) and c.id =:base  ");
 		$sql->bindValue(":dt1", $dt1);
@@ -80,7 +80,7 @@ class Relatorio extends Model
 		end as situacaonova, a.nome, a.placa, a.tipo, a.rg, a.cpf, c.base, 
 		a.nascimento, a.status, a.dtinicial, a.dtfinal, b.name 
 		FROM sarque a 
-		LEFT JOIN users b ON a.id_usuario = b.id 
+		LEFT JOIN usuario b ON a.id_usuario = b.id 
 		LEFT JOIN base c ON a.base = c.id 
 		where c.id =:base ");
 		$sql->bindValue(":base", $base);
@@ -107,7 +107,7 @@ class Relatorio extends Model
 		end as situacaonova, a.nome, a.placa, a.tipo, a.rg, a.cpf, c.base, 
 		a.nascimento, a.status, a.dtinicial, a.dtfinal, b.name 
 		FROM sarque a 
-		LEFT JOIN users b ON a.id_usuario = b.id 
+		LEFT JOIN usuario b ON a.id_usuario = b.id 
 		LEFT JOIN base c ON a.base = c.id ");
         $sql->execute();
 		

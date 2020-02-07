@@ -7,7 +7,7 @@ $config = array();
 if(ENVIRONMENT == 'development') {
 	// Offline - Localhost
 	define("BASE_URL", "http://stockpower.local/");
-	$config['dbname'] = 'stockpower';
+	$config['dbname'] = 'stackpower';
 	$config['host'] = 'localhost';
 	$config['dbuser'] = 'root';
 	$config['dbpass'] = '';

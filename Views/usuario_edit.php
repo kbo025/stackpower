@@ -1,8 +1,6 @@
 <!-- Conteudo da Pagina -->
 <section class="content-header">
-    <h1>
-        Usúario - Editar<i class="fa fa-users"></i>
-    </h1>
+    
 </section>
 
 <!-- Main content -->

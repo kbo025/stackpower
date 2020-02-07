@@ -47,6 +47,8 @@
 						<th class="hidden-xs">PLACA</th>
                         <th>INICIO</th>																								
                         <th class="hidden-xs">STATUS</th>
+                        <th class="hidden-xs">OPERADOR</th>
+                        <th class="hidden-xs">OPÇOES</th>
                      </tr>
                 </thead>
                 <tbody>
@@ -107,6 +109,8 @@ $(function () {
                     return tag;
                 }
             },
+            { "data": "name" },
+            { "data": "opcoes" }
         ],
         "oLanguage": {
             "sProcessing":   "Processando...",
@@ -127,10 +131,10 @@ $(function () {
         }
     });
 
-    /** busca na fonte de dados cada 3seg */
+    /** busca na fonte de dados cada 30seg */
     setInterval( function () {
         table.ajax.reload(null, false);
-    }, 3000);
+    }, 30000);
 
     $('#select-base').change( function () {
         var choosedFilter = $('#select-base').val();

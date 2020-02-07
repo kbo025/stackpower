@@ -2,26 +2,20 @@
 <!-- Conteudo da Pagina -->
 <section class="content-header">
     <h1>
-        <i class="fa fa-book"></i> Consultar 
+        <i class="fa fa-book"></i> Consultar Finalizados
     </h1>
 </section>
 
 <!-- Main content -->
 <section class="content container-fluid">
 
-    <div class="box">
-        <div class="box-header">
-            <div class="box-title">Sarque - Consultar</div>
-            <div class="box-tools">
-        
-            </div>
-        </div>
+  
 
         <div class="box-body">
            <table id="example1" class="display" class="table table-hover" border="0" width="100%">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th class="hidden-xs text-center">ID</th>
                         <th>NOME</th>
                         <th>BASE DE OPERAÇÃO</th>
                         <th class="hidden-xs">INICIO</th>
@@ -34,7 +28,7 @@
                 </thead>
                 <?php foreach ($list as $provider) : ?>
 				<tr>
-                      <td><?= $provider['id'];?></td>
+                      <td class="hidden-xs text-center"><?= $provider['id'];?></td>
                       <td><?= $provider['nome'];?></td>
                       <td><?= $provider['base'];?></td>
 					  <td class="hidden-xs"><?= date('d/m/Y H:i:s', strtotime($provider['dtinicial'])); ?></td>

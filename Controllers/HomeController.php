@@ -4,6 +4,7 @@ namespace Controllers;
 
 use \Core\Controller;
 use \Models\Users;
+use \Models\Home;
 
 class HomeController extends Controller {
 
@@ -25,6 +26,16 @@ class HomeController extends Controller {
 	}
 
 	public function index() {
+
+		$id_usuario       = addslashes($_SESSION['StockPower']['id']);
+		
+	    $home = new Home();
+
+	    $this->arrayInfo['listaSarcAberto'] = $home->getListSarcOpen($id_usuario);
+	    $this->arrayInfo['listaSarcFechado'] = $home->getListSarcClose($id_usuario);
+	    $this->arrayInfo['listaSarcCar'] = $home->getListCar($id_usuario);
+	    $this->arrayInfo['listaSarcUser'] = $home->getListUser($id_usuario);
+
 		$this->loadTemplate('home', $this->arrayInfo);
 	}
 

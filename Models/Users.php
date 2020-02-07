@@ -22,7 +22,7 @@ class Users extends Model {
 	// Metodo para verificar o Login
 	public function validateLogin($email, $password) {
 		
-		$sql = $this->db->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
+		$sql = $this->db->prepare("SELECT * FROM usuario WHERE email = :email AND password = :password");
 		$sql->bindValue(':email', $email);
 		$sql->bindValue(':password', md5($password));
 		$sql->execute();

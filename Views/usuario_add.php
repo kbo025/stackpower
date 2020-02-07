@@ -1,8 +1,6 @@
 <!-- Conteudo da Pagina -->
 <section class="content-header">
-    <h1>
-        Usúario <i class="fa fa-users"></i>
-    </h1>
+   
 </section>
 
 <!-- Main content -->
@@ -52,16 +50,6 @@
 									<option value="2">Operador</option>
 									<option value="3">Usuário</option>
 							</select><br>
-						</div>
-					</div>	
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="base">Base</label>
-							<select name="base" class="form-control">
-								<?php foreach ($base_list as $base) : ?>
-									<option value="<?= $base['id']?>"><?= $base['base']?></option>
-								<?php endforeach;?>
-							</select>
 						</div>
 					</div>	
 					</div>

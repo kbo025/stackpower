@@ -10,7 +10,18 @@ class Consulta extends Model
     public function getList()
     {
         $data = array();
-        $sql = $this->db->query("SELECT TIMEDIFF(a.dtfinal, a.dtinicial) as diferenca , a.id, a.nome, a.situacao, a.rg, a.cpf, c.base, a.nascimento, a.status, a.dtinicial, a.dtfinal, b.name FROM sarque a LEFT JOIN users b ON a.id_usuario = b.id LEFT JOIN base c ON a.base = c.id where a.dtinicial BETWEEN CONCAT(CURDATE(), ' 07:00:00') AND CONCAT(DATE_ADD(CURDATE(), INTERVAL 1 DAY), ' 07:00:00') and a.status IN(5,3,6,7)");
+        $sql = $this->db->query("SELECT TIMEDIFF(a.dtfinal, a.dtinicial) as diferenca , a.id, a.id_usuario, a.id_operador,
+		case a.situacao when 1 then 'Anotações Criminais'
+						when 2 then 'Busca e Apreensão'
+						when 3 then 'Dados Inconsistentes'
+						when 4 then 'Desaparecidos'
+						when 5 then 'Evadido'
+						when 6 then 'Mandado'
+						when 7 then 'Nada Constatado'
+						when 8 then 'Veiculo Roubado'
+						when 9 then 'Outros'
+         end as situacaonova, a.nome, a.placa, a.tipo, a.rg, a.cpf, c.base, a.nascimento, a.status, a.dtinicial, a.pai, a.mae,
+		 a.dtfinal, b.name FROM sarque a LEFT JOIN usuario b ON a.id_operador = b.id LEFT JOIN base c ON a.base = c.id where a.status IN(3,5,6,7)");
 
         if (!empty($sql)) {
             $data = $sql->fetchAll();
@@ -37,7 +48,9 @@ class Consulta extends Model
     {
         $data = array();
 
-        $sql = $this->db->prepare("SELECT a.id, a.nome, a.rg, a.cpf, a.base, a.nascimento, a.prisao, a.passagem, a.status, b.name FROM sarque a  LEFT JOIN users b ON a.id_usuario = b.id WHERE a.id = :id");
+        $sql = $this->db->prepare("SELECT a.id, a.nome, a.rg, a.cpf, a.base, a.nascimento, a.prisao, 
+        a.passagem, a.status, b.name FROM sarque a  
+        LEFT JOIN usuario b ON a.id_usuario = b.id WHERE a.id = :id");
         $sql->bindValue(":id", $id);
         $sql->execute();
 
@@ -52,7 +65,7 @@ class Consulta extends Model
     {
         $data = array();
 
-        $sql = $this->db->prepare("SELECT * FROM users WHERE tipo_usuario = 2");
+        $sql = $this->db->prepare("SELECT * FROM usuario WHERE tipo_usuario = 2");
         $sql->execute();
 
         if (!empty($sql)) {
