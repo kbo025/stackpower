@@ -42,7 +42,47 @@ class SarquearController extends Controller {
 		$this->arrayInfo['base_list'] = $base->getList();
         $this->arrayInfo['list'] = $sarquear->getList();
         $this->loadTemplate('sarquear', $this->arrayInfo);
+<<<<<<< HEAD
     }
+=======
+	}
+	
+	public function asyncdata() {
+
+		$params = [];
+		if (!empty($_GET['filter'])) {
+			$params['base'] = explode("|", $_GET['filter']);
+		}
+		$sarquear = new Sarquear();
+		$data = $sarquear->getList($params);
+
+		$data = array_map(
+				function($e) {
+					$opcoes = '';
+					$base = BASE_URL;
+					$id = $e['id'];
+					if ($_SESSION['StockPower']['tipo_usuario'] != 3) {
+						if ($e['status'] == 1) { 
+							$opcoes .= "<a href='{$base}sarquear/atender/$id' class='btn btn-success'>Atender</a>";
+						} elseif (($e['id_operador'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4)  && ($_SESSION['StockPower']['tipo_usuario'] = 3)) {
+							$opcoes .= "<a href='{$base}sarquear/conduzir/$id' class='btn btn-danger'>Conduzir</a>";
+						} elseif (($e['id_usuario'] == $_SESSION['StockPower']['id']) && ($e['status'] == 2)) { 
+							$opcoes .= "<a href='{$base}sarquear/responder/$id' class='btn btn-primary'>Responder</a>";
+						}
+					} elseif (($e['id_operador'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4)) { 
+						$opcoes .= "<a href='{$base}sarquear/conduzir/$id' class='btn btn-primary'>Conduzir</a>";
+					}
+					
+					$opcoes =  "<div class='btn-group'>$opcoes</div>";
+					$e['opcoes'] = $opcoes;
+					return $e;
+				},
+			$data);
+
+		echo json_encode(['data' => $data]);
+		die;
+	}
+>>>>>>> dcb0adfe8ef904e9e19835700277d7d538bc6409
 
     public function add()
     {

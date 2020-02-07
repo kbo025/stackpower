@@ -47,7 +47,10 @@
 						<th class="hidden-xs">PLACA</th>
                         <th>INICIO</th>																								
                         <th class="hidden-xs">STATUS</th>
+<<<<<<< HEAD
                         <th class="hidden-xs">OPERADOR</th>
+=======
+>>>>>>> dcb0adfe8ef904e9e19835700277d7d538bc6409
                         <th class="hidden-xs">OPÇOES</th>
                      </tr>
                 </thead>
@@ -109,7 +112,10 @@ $(function () {
                     return tag;
                 }
             },
+<<<<<<< HEAD
             { "data": "name" },
+=======
+>>>>>>> dcb0adfe8ef904e9e19835700277d7d538bc6409
             { "data": "opcoes" }
         ],
         "oLanguage": {
