@@ -6,6 +6,8 @@ use \Core\Controller;
 use \Models\Users;
 use \Models\Sarquear;
 use \Models\Base;
+use \Models\Bairro;
+use \Models\Rua;
 
 class SarquearController extends Controller {
 
@@ -38,59 +40,32 @@ class SarquearController extends Controller {
 
         $sarquear = new Sarquear();
 		$base = new Base();
-		
+
 		$this->arrayInfo['base_list'] = $base->getList();
         $this->arrayInfo['list'] = $sarquear->getList();
         $this->loadTemplate('sarquear', $this->arrayInfo);
-<<<<<<< HEAD
     }
-=======
-	}
-	
-	public function asyncdata() {
-
-		$params = [];
-		if (!empty($_GET['filter'])) {
-			$params['base'] = explode("|", $_GET['filter']);
-		}
-		$sarquear = new Sarquear();
-		$data = $sarquear->getList($params);
-
-		$data = array_map(
-				function($e) {
-					$opcoes = '';
-					$base = BASE_URL;
-					$id = $e['id'];
-					if ($_SESSION['StockPower']['tipo_usuario'] != 3) {
-						if ($e['status'] == 1) { 
-							$opcoes .= "<a href='{$base}sarquear/atender/$id' class='btn btn-success'>Atender</a>";
-						} elseif (($e['id_operador'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4)  && ($_SESSION['StockPower']['tipo_usuario'] = 3)) {
-							$opcoes .= "<a href='{$base}sarquear/conduzir/$id' class='btn btn-danger'>Conduzir</a>";
-						} elseif (($e['id_usuario'] == $_SESSION['StockPower']['id']) && ($e['status'] == 2)) { 
-							$opcoes .= "<a href='{$base}sarquear/responder/$id' class='btn btn-primary'>Responder</a>";
-						}
-					} elseif (($e['id_operador'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4)) { 
-						$opcoes .= "<a href='{$base}sarquear/conduzir/$id' class='btn btn-primary'>Conduzir</a>";
-					}
-					
-					$opcoes =  "<div class='btn-group'>$opcoes</div>";
-					$e['opcoes'] = $opcoes;
-					return $e;
-				},
-			$data);
-
-		echo json_encode(['data' => $data]);
-		die;
-	}
->>>>>>> dcb0adfe8ef904e9e19835700277d7d538bc6409
 
     public function add()
     {
 		$base = new Base();
+		$bairro = new Bairro();
 		
-		$this->arrayInfo['base_list'] = $base->getList();
+		$this->arrayInfo['base_list']    = $base->getList();
+		$this->arrayInfo['bairros_list'] = $bairro->getList();
+
         $this->loadTemplate('sarquear_add', $this->arrayInfo);
-    }
+	}
+	
+	public function asyncruas()
+	{
+		$cod_bairro = $_GET['cod_bairro'];
+		$ruas =  (new Rua)->getList($cod_bairro);
+
+		echo json_encode($ruas);
+		die;
+	}
+
 	public function veic()
     {		
 		$base = new Base();
@@ -111,6 +86,7 @@ class SarquearController extends Controller {
 	   header("Location: ".BASE_URL."sarquear/list");
 	   exit;
 	}
+
 	public function asyncdata() {
 
 		$params = [];
@@ -118,7 +94,8 @@ class SarquearController extends Controller {
 			$params['base'] = explode("|", $_GET['filter']);
 		}
 		$sarquear = new Sarquear();
-		$data = $sarquear->getList($params);
+		//$id_usuario = addslashes($_SESSION['StockPower']['id']);
+	$data = $sarquear->getList($params/*, $id_usuario*/);
 
 		$data = array_map(
 				function($e) {
@@ -128,13 +105,15 @@ class SarquearController extends Controller {
 					if ($_SESSION['StockPower']['tipo_usuario'] != 3) {
 						if ($e['status'] == 1) { 
 							$opcoes .= "<a href='{$base}sarquear/atender/$id' class='btn btn-success'>Atender</a>";
-						} elseif (($e['id_operador'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4)  && ($_SESSION['StockPower']['tipo_usuario'] = 3)) {
+						} elseif (($e['id_usuario'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4)  && ($_SESSION['StockPower']['tipo_usuario'] = 1)) {
 							$opcoes .= "<a href='{$base}sarquear/conduzir/$id' class='btn btn-danger'>Conduzir</a>";
 						} elseif (($e['id_operador'] == $_SESSION['StockPower']['id']) && ($e['status'] == 2)) { 
 							$opcoes .= "<a href='{$base}sarquear/responder/$id' class='btn btn-primary'>Responder</a>";
 						}
-					} elseif (($e['id_usuario'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4)) { 
+					} elseif (($e['id_usuario'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4) && ($_SESSION['StockPower']['tipo_usuario'] = 3)) { 
 						$opcoes .= "<a href='{$base}sarquear/conduzir/$id' class='btn btn-danger'>Conduzir</a>";
+					}elseif (($e['id_usuario'] == $_SESSION['StockPower']['id']) && ($e['status'] == 3) && ($_SESSION['StockPower']['tipo_usuario'] = 3)) { 
+						$opcoes .= "<a href='{$base}sarquear/view/$id' class='btn btn-success'>Visualizar</a>";
 					}
 					
 					$opcoes =  "<div class='btn-group'>$opcoes</div>";
@@ -153,7 +132,11 @@ class SarquearController extends Controller {
 		   $txtrgpm 		  = addslashes($_POST['txtrgpm']);
 		   $telefone   		  = addslashes($_POST['telefone']);
 		   $txtplaca   		  = addslashes($_POST['txtplaca']);
-		   $localocorrencia   = addslashes($_POST['localocorrencia']);
+		   $cod_bairro   	  = addslashes($_POST['bairroocorrencia']);
+		   $cod_rua			  = addslashes($_POST['ruaocorrencia']);
+		   $bairro 			  = (new Bairro)->findOne($cod_bairro);
+		   $rua			      = (new Rua)->findOne($cod_rua);
+		   $localocorrencia   = $bairro['nome'] . ', ' . $rua['nome'];
 		   $tpconsulta  	  = addslashes($_POST['tpconsulta']);	
 		   $id_operador       = addslashes($_SESSION['StockPower']['id']);	
 		   $txtobs            = addslashes($_POST['txtobs']);
@@ -166,7 +149,7 @@ class SarquearController extends Controller {
 			
 		}
 		
-		if(!empty(addslashes($_POST['txtrgpm']) && !empty(addslashes($_POST['base'])))) {
+		if(!empty(addslashes($_POST['txtrgpm']) && !empty(addslashes($_POST['base'])))) {	
 				$base 			    = addslashes($_POST['base']);
 				$txtrgpm 		    = addslashes($_POST['txtrgpm']);
 				$telefone   		= addslashes($_POST['telefone']);

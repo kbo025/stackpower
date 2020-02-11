@@ -6,18 +6,18 @@ require 'environment.php';
 $config = array();
 if(ENVIRONMENT == 'development') {
 	// Offline - Localhost
-	define("BASE_URL", "http://stockpower.local/");
-	$config['dbname'] = 'stackpower';
-	$config['host'] = 'localhost';
+	define("BASE_URL", "http://stackpower.local/");
+	$config['dbname'] = 'bd_nuite';
+	$config['host']   = 'localhost';
 	$config['dbuser'] = 'root';
 	$config['dbpass'] = '';
 } else {
 	// Caso esteja no Servidor Online
-	define("BASE_URL", "https://www.seusite.com.br/");
-	$config['dbname'] = '';
-	$config['host'] = 'localhost';
-	$config['dbuser'] = '';
-	$config['dbpass'] = '';
+	define("BASE_URL", "http://sarcsegurancapresente.com/nuinth/");
+	$config['dbname'] = 'bd_nuite';
+	$config['host'] = 'localhost:3306';
+	$config['dbuser'] = 'sddias';
+	$config['dbpass'] = '*clny1109';
 }
 
 global $db;

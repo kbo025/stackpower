@@ -37,20 +37,14 @@
        </div>
        <div id="entry">
        </div>
-        <div class="box-body">
-            <table id="example" class="display"  class="table table-hover" border="0" width="100%">
-                <thead>
+        <div class="box-body">            <table id="example" class="display"  class="table table-hover" border="0" width="100%">                <thead>
                     <tr>
                         <th>ID</th>
                         <th>NOME</th>
                         <th>BASE </th>
 						<th class="hidden-xs">PLACA</th>
                         <th>INICIO</th>																								
-                        <th class="hidden-xs">STATUS</th>
-<<<<<<< HEAD
-                        <th class="hidden-xs">OPERADOR</th>
-=======
->>>>>>> dcb0adfe8ef904e9e19835700277d7d538bc6409
+                        <th class="hidden-xs">OPERADOR</th>						<th class="hidden-xs">STATUS</th>
                         <th class="hidden-xs">OPÇOES</th>
                      </tr>
                 </thead>
@@ -58,7 +52,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 
 </section>
@@ -88,7 +81,7 @@ $(function () {
             { "data": "nome" },
             { "data": "base" },
             { "data": "placa" },
-            { "data": "dtinicial" },
+            { "data": "dtinicial" },						{ "data": "name" },
             {
                 "data": "status",
                 "render": function ( data, type, row, meta ) {
@@ -112,10 +105,6 @@ $(function () {
                     return tag;
                 }
             },
-<<<<<<< HEAD
-            { "data": "name" },
-=======
->>>>>>> dcb0adfe8ef904e9e19835700277d7d538bc6409
             { "data": "opcoes" }
         ],
         "oLanguage": {

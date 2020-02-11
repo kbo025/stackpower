@@ -6,30 +6,30 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SICA -WEB| <?php echo $_SESSION['StockPower']['name']; ?></title>
   <!-- Icone -->
-  <link rel="shortcut icon" href="assets/images/icon.png">
+  <link rel="shortcut icon" href="<?php echo BASE_URL; ?>assets/images/icon.png">
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="assets/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="assets/adminlte/bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/adminlte/bower_components/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="assets/adminlte/bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/adminlte/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="assets/adminlte/dist/css/AdminLTE.min.css">
-  <link rel="stylesheet" href="assets/css/template.css">
-  <link rel="stylesheet" href="assets/adminlte/dist/css/skins/skin-blue.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/adminlte/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/css/template.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/adminlte/dist/css/skins/skin-blue.min.css">
   <!-- JQuery -->
-  <script src="assets/adminlte/bower_components/jquery/dist/jquery.min.js"></script>
-  <script type="text/javascript" src="assets/js/jquery.mask.js"></script>
-  <script type="text/javascript" src="assets/js/bootstrap-notify.min.js"></script>
+  <script src="<?php echo BASE_URL ?>assets/adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="<?php echo BASE_URL ?>assets/js/jquery.mask.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/js/bootstrap-notify.js"></script>	
 
   <!-- Datatable -->
-  <link rel="stylesheet" type="text/css" href="assets/plugins/data.css">	
+  <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>assets/plugins/data.css">	
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">	
-  <link rel="stylesheet" type="text/css" href="assets/plugins/data_bootstrap4.css">
-  <script type="text/javascript" src="assets/plugins/data.js"></script>
-  <script type="text/javascript" src="assets/plugins/data_bootstrap4.js"></script>
+  <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>assets/plugins/data_bootstrap4.css">
+  <script type="text/javascript" src="<?php echo BASE_URL ?>assets/plugins/data.js"></script>
+  <script type="text/javascript" src="<?php echo BASE_URL ?>assets/plugins/data_bootstrap4.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 	
@@ -42,7 +42,7 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="assets/css/dropify.min.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>assets/css/dropify.min.css" />
     
 </head>
 
@@ -53,7 +53,7 @@
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="" class="logo">
+    <a href="<?php echo BASE_URL; ?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
 
       <!-- logo for regular state and mobile devices -->
@@ -72,7 +72,7 @@
 		
           <!-- Control Sidebar Toggle Button -->
           <li>
-            <a href="login/logout">
+            <a href="<?php echo BASE_URL; ?>login/logout">
               <i class="fa fa-sign-out-alt"></i><span class="hidden-xs" style="font-weight: bold;"> Sair</span>
             </a>
           </li>
@@ -115,22 +115,21 @@
 		<?php if($_SESSION['StockPower']['tipo_usuario'] == 1):?>
 		<li class="treeview">
        
-            <li><a class="<?php echo ($viewData['menuActive']=='sarquear')?'active':''; ?>" <a href="sarquear/add"><i class="glyphicon glyphicon-user"></i> <span>Solicitar Consulta</span></a></li>
-             <li><a class="<?php echo ($viewData['menuActive']=='consulta')?'active':''; ?>" <a href="consulta"><i class="fa fa-book"></i> <span>Consultar</span></a></li> 
+            <li><a class="<?php echo ($viewData['menuActive']=='sarquear')?'active':''; ?>" <a href="<?php echo BASE_URL ?>sarquear/add"><i class="glyphicon glyphicon-user"></i> <span>Solicitar Consultas</span></a></li>
         	  </ul>
         </li>
 		
 		  <ul class="sidebar-menu" data-widget="tree">
         <li class="header">CADASTROS</li>
           
-            <li><a class="<?php echo ($viewData['menuActive']=='usuario')?'active':''; ?>" <a href="usuario"><i class="fa fa-users"></i> <span>Cadastro de Usuário</span></a></li>
-            <li><a class="<?php echo ($viewData['menuActive']=='base')?'active':''; ?>" <a href="base"><i class="fa fa-book"></i> <span>Cadastro de Base</span></a></li>
+            <li><a class="<?php echo ($viewData['menuActive']=='usuario')?'active':''; ?>" <a href="<?php echo BASE_URL ?>usuario"><i class="fa fa-users"></i> <span>Cadastro de Usuário</span></a></li>
+            <li><a class="<?php echo ($viewData['menuActive']=='base')?'active':''; ?>" <a href="<?php echo BASE_URL ?>base"><i class="fa fa-book"></i> <span>Cadastro de Base</span></a></li>
           </ul>
         </li>
 		
 		<ul class="sidebar-menu" data-widget="tree">
 		<li class="header">RELATÓRIOS</li>	
-            <li><a class="<?php echo ($viewData['menuActive']=='relatorio')?'active':''; ?>" <a href="relatorio"><i class="fa fa-users"></i> <span>Relatório de Consultas</span></a></li>
+            <li><a class="<?php echo ($viewData['menuActive']=='relatorio')?'active':''; ?>" <a href="<?php echo BASE_URL ?>relatorio"><i class="fa fa-users"></i> <span>Relatório de Consultas</span></a></li>
           </ul>
         </li>
 	 </ul>
@@ -138,17 +137,17 @@
 		<?php if($_SESSION['StockPower']['tipo_usuario'] == 2):?>
 		<li class="treeview">     
 
-       <li><a class="<?php echo ($viewData['menuActive']=='consulta')?'active':''; ?>" <a href="consulta"><i class="fa fa-users"></i> <span> Listar Finalizados</span></a></li>
+
 	   
-	    <li><a class="<?php echo ($viewData['menuActive']=='sarquear')?'active':''; ?>" <a href="sarquear"><i class="fa fa-laptop"></i> <span>Listar Consultas</span></a></li>
+	    <li><a class="<?php echo ($viewData['menuActive']=='sarquear')?'active':''; ?>" <a href="<?php echo BASE_URL ?>sarquear"><i class="fa fa-laptop"></i> <span>Atender Consultas</span></a></li>
+		 <li><a class="<?php echo ($viewData['menuActive']=='consulta')?'active':''; ?>" <a href="<?php echo BASE_URL ?>consulta"><i class="fa fa-users"></i> <span> Consultas Finalizadas</span></a></li>
 	 <ul class="sidebar-menu" data-widget="tree">
         </ul>
         </li>
 	<li class="header">SITES</li>
-	   <li><a class="<?php echo ($viewData['menuActive']=='bnmp')?'active':''; ?>" <a href="https://portalbnmp.cnj.jus.br/" target="_blank"></i> <span>BNMP</span></a>
-	   
-	   </li> <li><a class="<?php echo ($viewData['menuActive']=='bnmp')?'active':''; ?>" <a href="https://infoseg.sinesp.gov.br/infoseg2/" target="_blank"></i> <span>SINESP</span></a>
-	     <li><a class="<?php echo ($viewData['menuActive']=='bnmp')?'active':''; ?>" <a href="https:/10.200.96.20/portal/portal" target="_blank"></i> <span>PORTAL</span></a>
+	   <li><a class="<?php echo ($viewData['menuActive']=='bnmp')?'active':''; ?>" <a href="https://portalbnmp.cnj.jus.br/" target="_blank"><i class="fa fa-laptop"></i> <span>BNMP</span></a>
+	    </li> <li><a class="<?php echo ($viewData['menuActive']=='bnmp')?'active':''; ?>" <a href="https://infoseg.sinesp.gov.br/infoseg2/" target="_blank"><i class="fa fa-laptop"></i> <span>SINESP</span></a>
+	    <li><a class="<?php echo ($viewData['menuActive']=='bnmp')?'active':''; ?>" <a href="https:/10.200.96.20/portal/portal" target="_blank"><i class="fa fa-laptop">  </i> <span>PORTAL</span></a>
           </ul>
         </li>
 		    </ul>
@@ -159,9 +158,8 @@
 		<li class="treeview">
           <a href="#">
          
-            <li><a class="<?php echo ($viewData['menuActive']=='sarquear')?'active':''; ?>" <a href="sarquear/add"><i class="glyphicon glyphicon-user"></i> <span>Solicitar Consulta</span></a></li>
-             <li><a class="<?php echo ($viewData['menuActive']=='sarquear')?'active':''; ?>" <a href="sarquear"><i class="fa fa-book"></i> <span>Listar Em Análise</span></a></li> 
-		      <li><a class="<?php echo ($viewData['menuActive']=='consulta')?'active':''; ?>" <a href="consulta"><i class="fa fa-book"></i> <span>Listar Finalizados</span></a></li> 	 
+            <li><a class="<?php echo ($viewData['menuActive']=='sarquear')?'active':''; ?>" <a href="<?php echo BASE_URL ?>sarquear/add"><i class="glyphicon glyphicon-user"></i> <span>Solicitar 			Consultas</span></a></li>			 <li><a class="<?php echo ($viewData['menuActive']=='sarquear')?'active':''; ?>" <a href="<?php echo BASE_URL ?>sarquear"><i class="fa fa-book"></i> <span>Consultas em Análise</span></a></li> 				  	
+		      <li><a class="<?php echo ($viewData['menuActive']=='consulta')?'active':''; ?>" <a href="<?php echo BASE_URL ?>consulta"><i class="fa fa-book"></i> <span>Consultas Finalizadas</span></a></li> 				  
 			   <li><a class="<?php echo ($viewData['menuActive']=='bnmp')?'active':''; ?>" <a href="http://sarcsegurancapresente.com/manual.pdf" target="_blank"></i> <span>Manual</span></a>
           </ul>
         </li>
@@ -199,10 +197,10 @@
 
 <!-- jQuery 3 -->
 <!-- Bootstrap 3.3.7 -->
-<script src="assets/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="<?php echo BASE_URL ?>assets/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="assets/adminlte/dist/js/adminlte.min.js"></script>
+<script src="<?php echo BASE_URL ?>assets/adminlte/dist/js/adminlte.min.js"></script>
 
-<script type="text/javascript" src="assets/js/dropify.min.js"></script>
+<script type="text/javascript" src="<?php echo BASE_URL ?>assets/js/dropify.min.js"></script>
 </body>
 </html>
