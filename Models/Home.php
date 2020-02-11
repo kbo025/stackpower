@@ -9,110 +9,66 @@ class Home extends Model
 
     public function getListSarcOpen($id_usuario)
     {
-        $data = 0;
-        $sql = $this->db->prepare("SELECT id, id_usuario FROM sarque WHERE id_usuario = :id AND status <> 3");
+
+        $sql = $this->db->prepare("SELECT count(*) FROM sarque WHERE id_usuario = :id AND status <> 3");
         $sql->bindValue(":id", $id_usuario);
         $sql->execute();
-
-        if ($sql->rowCount() > 0) {
-            $data = $sql->rowCount();
-        }
-        return $data;
+        return $sql->fetchColumn();
     }
+
     public function getListSarcClose($id_usuario)
     {
-        $data = 0;
-        $sql = $this->db->prepare("SELECT id FROM sarque WHERE id_usuario = :id AND status = 3 ");
+        $sql = $this->db->prepare("SELECT count(*) FROM sarque WHERE id_usuario = :id AND status = 3 ");
         $sql->bindValue(":id", $id_usuario);
         $sql->execute();
-
-        if ($sql->rowCount() > 0) {
-            $data = $sql->rowCount();
-        }
-
-        return $data;
+        return $sql->fetchColumn();
     }
+
     public function getListCar($id_usuario)
     {
-        $data = 0;
-        $sql = $this->db->prepare("SELECT id FROM sarque WHERE id_usuario = :id AND tipo = 2 ");
+        $sql = $this->db->prepare("SELECT count(*) FROM sarque WHERE id_usuario = :id AND tipo = 2 ");
         $sql->bindValue(":id", $id_usuario);
         $sql->execute();
-
-        if ($sql->rowCount() > 0) {
-            $data = $sql->rowCount();
-        }
-
-        return $data;
+        return $sql->fetchColumn();
     }
+
     public function getListUser($id_usuario)
     {
-        $data = 0;
-        $sql = $this->db->prepare("SELECT id FROM sarque WHERE id_usuario = :id AND tipo = 1 ");
+        $sql = $this->db->prepare("SELECT count(*) FROM sarque WHERE id_usuario = :id AND tipo = 1 ");
         $sql->bindValue(":id", $id_usuario);
         $sql->execute();
-
-        if ($sql->rowCount() > 0) {
-            $data = $sql->rowCount();
-        }
-
-        return $data;
+        return $sql->fetchColumn();
     } 
     
     public function getListSarcOpenOP($id_usuario)
     {
-        $data = 0;
-        $sql = $this->db->prepare("SELECT id, id_usuario FROM sarque WHERE id_operador = :id AND status <> 3");
+        $sql = $this->db->prepare("SELECT count(*) FROM sarque WHERE id_operador = :id AND status <> 3");
         $sql->bindValue(":id", $id_usuario);
         $sql->execute();
-
-        if ($sql->rowCount() > 0) {
-            $data = $sql->rowCount();
-        }
-        return $data;
+        return $sql->fetchColumn();
     }
+
     public function getListSarcCloseOP($id_usuario)
     {
-        $data = 0;
-        $sql = $this->db->prepare("SELECT id FROM sarque WHERE id_operador = :id AND status = 3 ");
+        $sql = $this->db->prepare("SELECT count(*) FROM sarque WHERE id_operador = :id AND status = 3 ");
         $sql->bindValue(":id", $id_usuario);
         $sql->execute();
-
-        if ($sql->rowCount() > 0) {
-            $data = $sql->rowCount();
-        }
-
-        return $data;
+        return $sql->fetchColumn();
     }
+
     public function getListCarOP($id_usuario)
     {
-        $data = 0;
-        $sql = $this->db->prepare("SELECT id FROM sarque WHERE id_operador = :id AND tipo = 2 ");
+        $sql = $this->db->prepare("SELECT count(*) FROM sarque WHERE id_operador = :id AND tipo = 2 ");
         $sql->bindValue(":id", $id_usuario);
         $sql->execute();
-
-        if ($sql->rowCount() > 0) {
-            $data = $sql->rowCount();
-        }
-
-        return $data;
+        return $sql->fetchColumn();
     }
+
     public function getListUserOP($id_usuario)
     {
-        $data = 0;
-        $sql = $this->db->prepare("SELECT id FROM sarque WHERE id_operador = :id AND tipo = 1 ");
+        $sql = $this->db->prepare("SELECT count(*) FROM sarque WHERE id_operador = :id AND tipo = 1 ");
         $sql->bindValue(":id", $id_usuario);
         $sql->execute();
-
-        if ($sql->rowCount() > 0) {
-            $data = $sql->rowCount();
-        }
-
-        return $data;
+        return $sql->fetchColumn();
     }
-
-
-
-
-
 }

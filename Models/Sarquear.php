@@ -7,8 +7,11 @@ use \Core\Model;
 class Sarquear extends Model
 {
     
-    public function getList($params = array())
+    public function getList($params = array(), $id_usuario = null)
     {
+
+        $tipoUsuario = addslashes($_SESSION['StockPower']['tipo_usuario']);
+
         $data = array();
         $strSql = "SELECT
             TIMEDIFF(a.dtfinal, a.dtinicial) as diferenca ,
@@ -40,15 +43,28 @@ class Sarquear extends Model
             c.base,
             b.name
             FROM sarque a
-            LEFT JOIN usuario b ON a.id_usuario = b.id
+            LEFT JOIN usuario b ON a.id_operador = b.id
             LEFT JOIN base c ON a.base = c.id
-            WHERE a.status NOT IN(3,5,6,7)";
+            WHERE
+             (
+            	CASE
+                WHEN ('$tipoUsuario' = 3) THEN 
+                a.status IN(1, 2, 4, 3)
+                WHEN ('$tipoUsuario' = 2) THEN 
+                a.status IN(1, 2)
+                END
+            )";
+          
 
         if (!empty($params) && is_array($params)) {
             if(isset($params['base']) && is_array($params['base'])) {
                 $baseFilter = "(" . implode(',', $params['base']) . ")";
                 $strSql = "$strSql AND a.base IN $baseFilter";
             }
+        }
+
+        if (!empty($id_usuario)) {
+            $strSql .= " AND a.id_usuario = $id_usuario";
         }
 
         $sql = $this->db->query($strSql);

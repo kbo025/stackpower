@@ -80,12 +80,34 @@
   </div>
  </div>
 
+ <div class="form-group">
+  <label class="col-md-2 control-label" for="bairroocorrencia">Bairro Ocorrência <h11>*</h11></label>
+  <div class="col-md-3">
+    <select name="bairroocorrencia" id="bairroocorrencia" class="form-control">
+      <option value=""></option>
+      <?php foreach ($bairros_list as $bairro) : ?>
+        <option value="<?= $bairro['cod_bairro']?>"><?= $bairro['nome']?></option>
+      <?php endforeach;?>      
+    </select>
+  </div>
+</div>
+
+<div class="form-group">
+  <label class="col-md-2 control-label" for="ruaocorrencia">Rua Ocorrência <h11>*</h11></label>
+  <div class="col-md-3">
+    <select name="ruaocorrencia" id="ruaocorrencia" class="form-control"></select>
+  </div>
+</div>
+
+<!--
 <div class="form-group">
   <label class="col-md-2 control-label" for="Nome">Local Ocorrência <h11>*</h11></label>  
   <div class="col-md-8">
-  <input id="Nome" name="localocorrencia" placeholder="" class="form-control input-md" required="" type="text">
+    <input id="Nome" name="localocorrencia" placeholder="" class="form-control input-md" required="" type="text">
   </div>
 </div>
+-->
+
 <div class="form-group">
 <label class="col-md-2 control-label" for="Filhos">Tipo<h11>*</h11></label>
 <div class="col-md-3">
@@ -176,8 +198,7 @@
 <div class="form-group">
   <label class="col-md-2 control-label" for="Observações">Observações </label>
   <div class="col-md-8">
-  <textarea id="obs" name="txtobs" rows="4" class="form-control input-md" placeholder="Insira observações que possam auxiliar na consulta solicitada, tais como, tatuagens, apelidos, marcas características, marca, modelo, cor do veículo e outras que julgar cabíveis."></textarea>
-  </div>
+      <textarea id="obs" name="txtobs" rows="4" class="form-control input-md" placeholder="Insira observações que possam auxiliar na consulta solicitada, tais como, tatuagens, apelidos, marcas características, marca, modelo, cor do veículo e outras que julgar cabíveis."></textarea>
   </div>
 </div>
 
@@ -201,7 +222,10 @@
 </section>
 
 <script type="text/javascript" src="<?= BASE_URL?>assets/js/jquery.mask.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
+
+var localizacaoUlr = "/sarquear/asyncruas";
+var localizacao;
 
 function formatar(mascara, documento){
   var i = documento.value.length;
@@ -257,47 +281,65 @@ else if(idade()<18) {
 </script>
 
 <script>
-  $(document).ready(function(){
-      // Basic
-      $('.dropify').dropify();
+$(document).ready(function(){
+    // Basic
+    $('.dropify').dropify();
 
-      // Translated
-      $('.dropify-pt').dropify({
-          messages: {
-              default: 'Arraste e solte um arquivo aqui ou clique em',
-              replace: 'Arraste e solte um arquivo ou clique para substituir',
-              remove:  'remover',
-              error:   'Desculpe, o arquivo é muito grande'
-          }
-      });
+    // Translated
+    $('.dropify-pt').dropify({
+        messages: {
+            default: 'Arraste e solte um arquivo aqui ou clique em',
+            replace: 'Arraste e solte um arquivo ou clique para substituir',
+            remove:  'remover',
+            error:   'Desculpe, o arquivo é muito grande'
+        }
+    });
 
-      // Used events
-      var drEvent = $('#input-file-events').dropify();
+    // Used events
+    var drEvent = $('#input-file-events').dropify();
 
-      drEvent.on('dropify.beforeClear', function(event, element){
-          return confirm("Deseja realmente excluir \"" + element.file.name + "\" ?");
-      });
+    drEvent.on('dropify.beforeClear', function(event, element){
+        return confirm("Deseja realmente excluir \"" + element.file.name + "\" ?");
+    });
 
-      drEvent.on('dropify.afterClear', function(event, element){
-          alert('Arquivo excluído');
-      });
+    drEvent.on('dropify.afterClear', function(event, element){
+        alert('Arquivo excluído');
+    });
 
-      drEvent.on('dropify.errors', function(event, element){
-          console.log('Tem erros');
-      });
+    drEvent.on('dropify.errors', function(event, element){
+        console.log('Tem erros');
+    });
 
-      var drDestroy = $('#input-file-to-destroy').dropify();
-      drDestroy = drDestroy.data('dropify')
-      $('#toggleDropify').on('click', function(e){
-          e.preventDefault();
-          if (drDestroy.isDropified()) {
-              drDestroy.destroy();
-          } else {
-              drDestroy.init();
+    var drDestroy = $('#input-file-to-destroy').dropify();
+    drDestroy = drDestroy.data('dropify')
+    $('#toggleDropify').on('click', function(e) {
+        e.preventDefault();
+        if (drDestroy.isDropified()) {
+            drDestroy.destroy();
+        } else {
+            drDestroy.init();
+        }
+    })
+
+    $('#bairroocorrencia').change(function(e) {
+        let selecionado = $(this).val();
+        $('#ruaocorrencia').html('');
+        $.ajax({
+          url: `${localizacaoUlr}?cod_bairro=${selecionado}`,
+          type: 'get',
+          dataType: 'json',
+        })
+      .done(jqXHR => {
+          let localizacao = jqXHR;
+          for (let i = 0; i < localizacao.length; i++) {
+              $('#ruaocorrencia').append(`<option value="${ localizacao[i].cod_rua }">${ localizacao[i].nome }</option>`);
           }
       })
-  });
-
+      .fail(jqXHR => {
+          console.log('error');
+      });
+    });
+});
   
 </script>
 
