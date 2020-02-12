@@ -1,7 +1,17 @@
 <?php
     $listUrl = BASE_URL . 'sarquear/asyncdata';
-?>
+    $selecionados = [];
+    if (isset($_SESSION['sarquear_filters'])) {
+        $selecionados = $_SESSION['sarquear_filters'];
+    }
 
+    $base_list = array_map(
+        function($e) use ($selecionados) {
+            $e['selecionado'] = in_array($selecionados, $e['id']) ? 'selected' : '';
+        },
+        $base_list
+    );
+?>
 
 <!-- Conteudo da Pagina -->
 <section class="content-header">
@@ -26,25 +36,37 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Base</label>
-                <select class="form-control select2" id="select-base" multiple="multiple" data-placeholder="Selecione a Base"
-                        style="width:100%">
-                        <?php foreach ($base_list as $base) : ?>
-                        <option value="<?= $base['id']?>"><?= $base['base']?></option>
-                        <?php endforeach;?>
+                <select
+                    class="form-control select2"
+                    id="select-base"
+                    multiple="multiple"
+                    data-placeholder="Selecione a Base"
+                    style="width:100%">
+                    <?php foreach ($base_list as $base) : ?>
+                        <option value="<?= $base['id']?>" <?= $base['selecionado'] ?>><?= $base['base']?></option>
+                    <?php endforeach;?>
                 </select>
               </div>
            </div>
        </div>
        <div id="entry">
        </div>
-        <div class="box-body">            <table id="example" class="display"  class="table table-hover" border="0" width="100%">                <thead>
+        <div class="box-body">
+            <table
+                id="example"
+                class="display"
+                class="table table-hover"
+                border="0"
+                width="100%">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>NOME</th>
                         <th>BASE </th>
 						<th class="hidden-xs">PLACA</th>
                         <th>INICIO</th>																								
-                        <th class="hidden-xs">OPERADOR</th>						<th class="hidden-xs">STATUS</th>
+                        <th class="hidden-xs">OPERADOR</th>
+                        <th class="hidden-xs">STATUS</th>
                         <th class="hidden-xs">OPÇOES</th>
                      </tr>
                 </thead>
@@ -81,7 +103,8 @@ $(function () {
             { "data": "nome" },
             { "data": "base" },
             { "data": "placa" },
-            { "data": "dtinicial" },						{ "data": "name" },
+            { "data": "dtinicial" },
+            { "data": "name" },
             {
                 "data": "status",
                 "render": function ( data, type, row, meta ) {

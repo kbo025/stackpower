@@ -33,7 +33,6 @@ class SarquearController extends Controller {
 			'error' => $array['error'],
             'menuActive' => 'usuario'
         );
-	
     }
 
     public function index() {
@@ -92,10 +91,14 @@ class SarquearController extends Controller {
 		$params = [];
 		if (!empty($_GET['filter'])) {
 			$params['base'] = explode("|", $_GET['filter']);
+			$_SESSION['sarquear_filters'] = $params['base'];
+		} else if (isset($_SESSION['sarquear_filters'])) {
+			$params['base'] = $_SESSION['sarquear_filters'];
 		}
+
 		$sarquear = new Sarquear();
 		//$id_usuario = addslashes($_SESSION['StockPower']['id']);
-	$data = $sarquear->getList($params/*, $id_usuario*/);
+		$data = $sarquear->getList($params/*, $id_usuario*/);
 
 		$data = array_map(
 				function($e) {
@@ -104,7 +107,7 @@ class SarquearController extends Controller {
 					$id = $e['id'];
 					if ($_SESSION['StockPower']['tipo_usuario'] != 3) {
 						if ($e['status'] == 1) { 
-							$opcoes .= "<a href='{$base}sarquear/atender/$id' class='btn btn-success'>Atender</a>";
+							$opcoes .= "<a href='{$base}sarquear/atender/$id' class='btn btn-success'  target='_blank'>Atender</a>";
 						} elseif (($e['id_usuario'] == $_SESSION['StockPower']['id']) && ($e['status'] == 4)  && ($_SESSION['StockPower']['tipo_usuario'] = 1)) {
 							$opcoes .= "<a href='{$base}sarquear/conduzir/$id' class='btn btn-danger'>Conduzir</a>";
 						} elseif (($e['id_operador'] == $_SESSION['StockPower']['id']) && ($e['status'] == 2)) { 
@@ -153,7 +156,9 @@ class SarquearController extends Controller {
 				$base 			    = addslashes($_POST['base']);
 				$txtrgpm 		    = addslashes($_POST['txtrgpm']);
 				$telefone   		= addslashes($_POST['telefone']);
-				$localocorrencia    = addslashes($_POST['localocorrencia']);
+				$bairro 			= (new Bairro)->findOne($cod_bairro);
+				$rua			    = (new Rua)->findOne($cod_rua);
+				$localocorrencia   = $bairro['nome'] . ', ' . $rua['nome'];
 				$tpconsulta  	    = addslashes($_POST['tpconsulta']);
 				$motivo  		    = addslashes($_POST['motivo']);
 				$txtnome  		    = addslashes($_POST['txtnome']);
@@ -167,15 +172,15 @@ class SarquearController extends Controller {
 			
 			
 				$sarquear = new Sarquear();
-				if($sarquear->addPessoa($base, $txtrgpm, $telefone, $localocorrencia, $tpconsulta, $motivo, $txtnome, $txtrg, $txtcpf, $txtdtnasc, $txtmae, $txtpai, $txtobs, $id_operador)) {
+				if(	$sarquear->addPessoa($base, $txtrgpm, $telefone, $localocorrencia, $tpconsulta, $motivo, $txtnome, $txtrg, $txtcpf, $txtdtnasc, $txtmae, $txtpai, $txtobs, $id_operador)) {
 					if($_FILES) {
 						try {
 							if (!$_FILES) {
-								throw new UnexpectedValueException(
-								'There was a problem with the upload. Please try again.'
+								throw new \UnexpectedValueException(
+									'There was a problem with the upload. Please try again.'
 								);
 							}
-						} catch (Exception $exc) {
+						} catch (\Exception $exc) {
 							echo $exc->getMessage();
 							exit();
 						}
@@ -246,22 +251,21 @@ class SarquearController extends Controller {
 		$txtplaca	= addslashes($_POST['txtplaca']);
 		$txtdatanascimento	= $d ;
 
-		if($status == ''){
+		if ($status == '') {
 			$_SESSION['errorMsg'] = 'selecione um Status';
 			header("Location: ".BASE_URL."sarquear/responder/".$id);
-			exit;	
+			exit;
 		}
-
 		
         $sarquear = new Sarquear();
 		if($_FILES) {
 			try {
 				if (!$_FILES) {
-					throw new UnexpectedValueException(
+					throw new \UnexpectedValueException(
 					'There was a problem with the upload. Please try again.'
 					);
 				}
-			} catch (Exception $exc) {
+			} catch (\Exception $exc) {
 				echo $exc->getMessage();
 				exit();
 			}
@@ -302,6 +306,7 @@ class SarquearController extends Controller {
         header("Location: ".BASE_URL."sarquear");
         exit;
 	}
+
 	public function view($id)
     {
 		//$id_usuario       = addslashes($_SESSION['StockPower']['id']);
@@ -345,13 +350,11 @@ class SarquearController extends Controller {
 	{
 		header("Location: ".BASE_URL."consulta");
         exit;
-	}	
+	}
+
 	public function consultan()
 	{
 		$sarquear = new Sarquear();
 		$sarquear->server();
-	}
-
-
-	
+	}	
 }
