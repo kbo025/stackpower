@@ -12,7 +12,11 @@
   <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/adminlte/bower_components/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+    crossorigin="anonymous">
   <!-- Ionicons -->
   <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/adminlte/bower_components/Ionicons/css/ionicons.min.css">
   <!-- Theme style -->
@@ -32,18 +36,20 @@
   <script type="text/javascript" src="<?php echo BASE_URL ?>assets/plugins/data_bootstrap4.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+  <!-- char js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	
   <!-- Select2 -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
 
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>assets/css/dropify.min.css" />
-    
+  <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>assets/css/dropify.min.css" />  
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -92,16 +98,16 @@
           <p><?php echo $_SESSION['StockPower']['name']; ?></p>
           <!-- Status -->
 		  <?php 
-		   switch ($_SESSION['StockPower']['tipo_usuario']) {
-			case 1:
-				echo ' <i class="fa fa-circle text-success"></i> &nbspAdministrador';  
-				break;
-			case 2:
-				echo ' <i class="fa fa-circle text-success"></i> &nbspOperador' ; 
-				break;
-			case 3:
-				echo ' <i class="fa fa-circle text-success"></i> &nbspUsuário' ; 
-				break;
+		  switch ($_SESSION['StockPower']['tipo_usuario']) {
+			    case 1:
+				    echo ' <i class="fa fa-circle text-success"></i> &nbspAdministrador';  
+				  break;
+			    case 2:
+				    echo ' <i class="fa fa-circle text-success"></i> &nbspOperador' ; 
+				  break;
+			    case 3:
+				    echo ' <i class="fa fa-circle text-success"></i> &nbspUsuário' ; 
+				  break;
 			}
 		  ?>
            
