@@ -7,7 +7,8 @@
 
     $base_list = array_map(
         function($e) use ($selecionados) {
-            $e['selecionado'] = in_array($selecionados, $e['id']) ? 'selected' : '';
+            $e['selecionado'] = in_array($e['id'], $selecionados) ? 'selected' : '';
+            return $e;
         },
         $base_list
     );
@@ -43,7 +44,7 @@
                     data-placeholder="Selecione a Base"
                     style="width:100%">
                     <?php foreach ($base_list as $base) : ?>
-                        <option value="<?= $base['id']?>" <?= $base['selecionado'] ?>><?= $base['base']?></option>
+                        <option value="<?= $base['id']?>" <?= $base['selecionado']?>><?= $base['base']?></option>
                     <?php endforeach;?>
                 </select>
               </div>

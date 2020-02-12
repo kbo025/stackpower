@@ -131,18 +131,18 @@ class SarquearController extends Controller {
 
 	public function add_action() {
 		if(!empty(addslashes($_POST['txtplaca']))){
-		   $base 			  = addslashes($_POST['base']);
-		   $txtrgpm 		  = addslashes($_POST['txtrgpm']);
-		   $telefone   		  = addslashes($_POST['telefone']);
-		   $txtplaca   		  = addslashes($_POST['txtplaca']);
-		   $cod_bairro   	  = addslashes($_POST['bairroocorrencia']);
-		   $cod_rua			  = addslashes($_POST['ruaocorrencia']);
-		   $bairro 			  = (new Bairro)->findOne($cod_bairro);
-		   $rua			      = (new Rua)->findOne($cod_rua);
-		   $localocorrencia   = $bairro['nome'] . ', ' . $rua['nome'];
-		   $tpconsulta  	  = addslashes($_POST['tpconsulta']);	
-		   $id_operador       = addslashes($_SESSION['StockPower']['id']);	
-		   $txtobs            = addslashes($_POST['txtobs']);
+		   $base 			= addslashes($_POST['base']);
+		   $txtrgpm 		= addslashes($_POST['txtrgpm']);
+		   $telefone   		= addslashes($_POST['telefone']);
+		   $txtplaca   		= addslashes($_POST['txtplaca']);
+		   $cod_bairro   	= addslashes($_POST['bairroocorrencia']);
+		   $cod_rua			= addslashes($_POST['ruaocorrencia']);
+		   $bairro 			= (new Bairro)->findOne($cod_bairro);
+		   $rua			    = (new Rua)->findOne($cod_rua);
+		   $localocorrencia = $bairro['nome'] . ', ' . $rua['nome'];
+		   $tpconsulta  	= addslashes($_POST['tpconsulta']);	
+		   $id_operador     = addslashes($_SESSION['StockPower']['id']);	
+		   $txtobs          = addslashes($_POST['txtobs']);
 
 			$sarquear = new Sarquear();
 			$sarquear->addVeiculo($base, $txtrgpm, $telefone, $localocorrencia, $txtplaca, $tpconsulta, $txtobs, $id_operador);
